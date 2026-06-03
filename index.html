@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="Lumina Game"/>
+<title>Lumina Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/main.css"/>
+<link rel="stylesheet" href="css/ttt.css"/>
+<link rel="stylesheet" href="css/chess.css"/>
+<link rel="stylesheet" href="css/chat.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     SPLASH SCREEN
+═══════════════════════════════════════ -->
+<div id="splash" class="splash-screen">
+  <canvas id="splash-canvas"></canvas>
+  <div class="splash-content">
+    <div class="splash-logo">
+      <img src="assets/logo.png" alt="Lumina Game" class="splash-logo-img"/>
+    </div>
+    <h1 class="splash-title">LUMINA<span>GAME</span></h1>
+    <div class="splash-tagline">Chess · Tic Tac Toe · Online · Offline</div>
+    <div class="splash-loader">
+      <div class="splash-bar"><div class="splash-fill" id="splash-fill"></div></div>
+      <span class="splash-pct" id="splash-pct">0%</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     AUTH SCREEN
+═══════════════════════════════════════ -->
+<div id="screen-auth" class="screen hidden">
+  <div class="auth-aurora"></div>
+  <div class="auth-wrap">
+    <div class="auth-logo-area">
+      <img src="assets/logo.png" alt="Lumina Game" class="auth-logo"/>
+      <h1 class="auth-brand">LUMINA <span>GAME</span></h1>
+      <p class="auth-sub">Multiplayer Gaming Arena</p>
+    </div>
+    <div class="auth-card glass-card">
+      <div class="tab-row">
+        <button class="tab active" data-tab="login">Masuk</button>
+        <button class="tab" data-tab="register">Daftar</button>
+      </div>
+      <div id="tab-login" class="tab-pane active">
+        <div class="field"><span class="fi">✉</span><input id="l-email" type="email" placeholder="Email"/></div>
+        <div class="field"><span class="fi">🔒</span><input id="l-pass" type="password" placeholder="Password"/></div>
+        <button class="btn-lumina" onclick="loginEmail()">MASUK</button>
+        <div class="or-row"><span>atau</span></div>
+        <button class="btn-google" onclick="loginGoogle()"><svg width="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Lanjut dengan Google</button>
+        <p class="err-msg" id="l-err"></p>
+      </div>
+      <div id="tab-register" class="tab-pane">
+        <div class="field"><span class="fi">🎮</span><input id="r-tag" type="text" placeholder="Gamertag (nama unik)" maxlength="16"/></div>
+        <div class="field"><span class="fi">✉</span><input id="r-email" type="email" placeholder="Email"/></div>
+        <div class="field"><span class="fi">🔒</span><input id="r-pass" type="password" placeholder="Password (min 6)"/></div>
+        <button class="btn-lumina" onclick="registerEmail()">DAFTAR</button>
+        <div class="or-row"><span>atau</span></div>
+        <button class="btn-google" onclick="loginGoogle()"><svg width="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Daftar dengan Google</button>
+        <p class="err-msg" id="r-err"></p>
+      </div>
+    </div>
+    <button class="btn-offline" onclick="playOffline()">🤖 Main Offline vs AI</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     LOBBY SCREEN
+═══════════════════════════════════════ -->
+<div id="screen-lobby" class="screen hidden">
+  <div class="lobby-bg"></div>
+  <header class="topbar">
+    <div class="topbar-left">
+      <img src="assets/logo.png" class="topbar-logo"/>
+      <span class="topbar-brand">LUMINA</span>
+    </div>
+    <div class="topbar-right">
+      <button class="user-pill" onclick="showProfile()">
+        <span class="user-gem" id="user-gem">L</span>
+        <span id="user-tag">Player</span>
+      </button>
+      <button class="icon-btn" onclick="logout()" title="Keluar">⏏</button>
+    </div>
+  </header>
+  <main class="lobby-main">
+    <div class="lobby-hero">
+      <h2 class="lobby-headline">Pilih Arena</h2>
+      <p class="lobby-sub">Tantang teman atau lawan AI</p>
+    </div>
+    <div class="game-grid">
+      <div class="game-tile ttt-tile" onclick="goOfflineTTT()">
+        <div class="game-tile-bg"></div>
+        <div class="game-tile-icon">✕⭕</div>
+        <div class="game-tile-name">Tic Tac Toe</div>
+        <div class="game-tile-badge">vs AI</div>
+      </div>
+      <div class="game-tile chess-tile" onclick="goOfflineChess()">
+        <div class="game-tile-bg"></div>
+        <div class="game-tile-icon">♞</div>
+        <div class="game-tile-name">Catur</div>
+        <div class="game-tile-badge">vs AI</div>
+      </div>
+    </div>
+    <div class="lobby-divider"><span>ONLINE MULTIPLAYER</span></div>
+    <div class="room-actions">
+      <button class="room-btn create-btn" onclick="openCreateModal()">
+        <span class="room-btn-icon">🏠</span>
+        <div><div class="room-btn-title">Buat Room</div><div class="room-btn-sub">Jadilah host</div></div>
+      </button>
+      <button class="room-btn join-btn" onclick="openJoinModal()">
+        <span class="room-btn-icon">🔑</span>
+        <div><div class="room-btn-title">Join Room</div><div class="room-btn-sub">Masukkan kode</div></div>
+      </button>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PROFILE MODAL
+═══════════════════════════════════════ -->
+<div id="modal-profile" class="modal-ov hidden">
+  <div class="modal-box glass-card">
+    <div class="modal-hd"><h3>⚙️ Profil & Settings</h3><button onclick="closeModal('modal-profile')">✕</button></div>
+    <div class="profile-avatar-big" id="profile-gem-big">L</div>
+    <div class="field"><span class="fi">🎮</span><input id="new-tag" type="text" placeholder="Gamertag baru" maxlength="16"/></div>
+    <button class="btn-lumina" onclick="saveGamertag()">Simpan Gamertag</button>
+    <p class="err-msg" id="tag-msg"></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CREATE ROOM MODAL
+═══════════════════════════════════════ -->
+<div id="modal-create" class="modal-ov hidden">
+  <div class="modal-box glass-card">
+    <div class="modal-hd"><h3>🏠 Buat Room</h3><button onclick="closeModal('modal-create')">✕</button></div>
+    <label class="fl">Nama Room</label>
+    <div class="field"><span class="fi">🏷</span><input id="c-name" type="text" placeholder="Nama room..." maxlength="20"/></div>
+    <label class="fl">Game</label>
+    <div class="radio-row">
+      <label class="radio-opt"><input type="radio" name="c-game" value="ttt" checked/><div class="radio-card"><span>✕⭕</span><span>Tic Tac Toe</span></div></label>
+      <label class="radio-opt"><input type="radio" name="c-game" value="chess"/><div class="radio-card"><span>♞</span><span>Catur</span></div></label>
+    </div>
+    <label class="fl">Waktu per Giliran</label>
+    <div class="radio-row">
+      <label class="radio-opt"><input type="radio" name="c-time" value="300" checked/><div class="radio-card sm"><span>5 mnt</span></div></label>
+      <label class="radio-opt"><input type="radio" name="c-time" value="600"/><div class="radio-card sm"><span>10 mnt</span></div></label>
+      <label class="radio-opt"><input type="radio" name="c-time" value="900"/><div class="radio-card sm"><span>15 mnt</span></div></label>
+    </div>
+    <button class="btn-lumina" onclick="createRoom()">BUAT ROOM ⚡</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     JOIN ROOM MODAL
+═══════════════════════════════════════ -->
+<div id="modal-join" class="modal-ov hidden">
+  <div class="modal-box glass-card">
+    <div class="modal-hd"><h3>🔑 Join Room</h3><button onclick="closeModal('modal-join')">✕</button></div>
+    <label class="fl">Kode Room</label>
+    <div class="field"><span class="fi">🎯</span><input id="j-code" type="text" placeholder="6 digit kode..." maxlength="6" oninput="this.value=this.value.toUpperCase()"/></div>
+    <button class="btn-lumina" onclick="joinRoom()">JOIN 🚀</button>
+    <p class="err-msg" id="j-err"></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     WAITING ROOM SCREEN
+═══════════════════════════════════════ -->
+<div id="screen-room" class="screen hidden">
+  <div class="room-aurora"></div>
+  <header class="topbar">
+    <button class="back-btn" onclick="leaveRoom()">← Keluar</button>
+    <span class="topbar-brand" id="room-name-display">Room</span>
+    <div style="width:80px"></div>
+  </header>
+  <div class="room-body">
+    <!-- Code box -->
+    <div class="code-box glass-card">
+      <div class="code-lbl">KODE ROOM</div>
+      <div class="code-val" id="room-code-disp">------</div>
+      <button class="copy-btn" onclick="copyCode()">📋 Salin</button>
+    </div>
+    <!-- Players list -->
+    <div class="players-box glass-card" id="players-box">
+      <!-- populated by JS -->
+    </div>
+    <!-- Host panel -->
+    <div id="host-panel" class="glass-card host-panel hidden">
+      <div class="hp-title">⚙️ HOST SETTINGS</div>
+      <label class="fl">Game</label>
+      <div class="radio-row">
+        <label class="radio-opt"><input type="radio" name="h-game" value="ttt" onchange="hostSet('game','ttt')"/><div class="radio-card"><span>✕⭕</span><span>TTT</span></div></label>
+        <label class="radio-opt"><input type="radio" name="h-game" value="chess" onchange="hostSet('game','chess')"/><div class="radio-card"><span>♞</span><span>Catur</span></div></label>
+      </div>
+      <label class="fl">Waktu Giliran</label>
+      <div class="radio-row">
+        <label class="radio-opt"><input type="radio" name="h-time" value="300" onchange="hostSet('timeLimit',300)"/><div class="radio-card sm"><span>5 mnt</span></div></label>
+        <label class="radio-opt"><input type="radio" name="h-time" value="600" onchange="hostSet('timeLimit',600)"/><div class="radio-card sm"><span>10 mnt</span></div></label>
+        <label class="radio-opt"><input type="radio" name="h-time" value="900" onchange="hostSet('timeLimit',900)"/><div class="radio-card sm"><span>15 mnt</span></div></label>
+      </div>
+      <label class="fl">Peran Saya</label>
+      <div class="radio-row">
+        <label class="radio-opt"><input type="radio" name="h-role" value="player" checked onchange="hostSet('hostRole','player')"/><div class="radio-card sm"><span>🎮 Bermain</span></div></label>
+        <label class="radio-opt"><input type="radio" name="h-role" value="spectator" onchange="hostSet('hostRole','spectator')"/><div class="radio-card sm"><span>👁 Spectator</span></div></label>
+      </div>
+      <div class="host-btns">
+        <button class="btn-lumina" id="btn-start" onclick="hostStartGame()" disabled>▶ Mulai</button>
+        <button class="btn-stop hidden" id="btn-stop" onclick="hostStopGame()">⏹ Stop</button>
+        <button class="btn-restart hidden" id="btn-restart" onclick="hostRestartGame()">🔄 Ulang</button>
+      </div>
+    </div>
+    <div id="guest-wait" class="guest-wait glass-card hidden">
+      <div class="spin-ring"></div>
+      <p>Menunggu host memulai...</p>
+      <label class="fl" style="margin-top:12px">Peran Saya</label>
+      <div class="radio-row">
+        <label class="radio-opt"><input type="radio" name="g-role" value="player" checked onchange="guestSetRole('player')"/><div class="radio-card sm"><span>🎮 Bermain</span></div></label>
+        <label class="radio-opt"><input type="radio" name="g-role" value="spectator" onchange="guestSetRole('spectator')"/><div class="radio-card sm"><span>👁 Spectator</span></div></label>
+      </div>
+    </div>
+    <!-- Chat -->
+    <div class="chat-room glass-card" id="chat-room">
+      <div class="chat-title">💬 Room Chat</div>
+      <div class="chat-msgs" id="chat-msgs"></div>
+      <div class="chat-input-row">
+        <input id="chat-input" type="text" placeholder="Ketik pesan..." maxlength="100" onkeydown="if(e.key==='Enter')sendChat(event)"/>
+        <button onclick="sendChat(event)">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TIC TAC TOE SCREEN
+═══════════════════════════════════════ -->
+<div id="screen-ttt" class="screen hidden">
+  <div class="ttt-aurora"></div>
+  <header class="topbar">
+    <button class="back-btn" onclick="exitGame()">← Keluar</button>
+    <span class="topbar-brand">TIC TAC TOE</span>
+    <button class="icon-btn" onclick="toggleChat()">💬</button>
+  </header>
+  <div class="ttt-wrap">
+    <!-- Scoreboard -->
+    <div class="score-bar">
+      <div class="score-card" id="ttt-sc-x">
+        <div class="sc-sym x-col">✕</div>
+        <div class="sc-name" id="ttt-nx">X</div>
+        <div class="sc-val" id="ttt-vx">0</div>
+        <div class="timer-ring" id="timer-x"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="3"/><circle cx="18" cy="18" r="15" fill="none" stroke="#4affcb" stroke-width="3" stroke-dasharray="94.2" stroke-dashoffset="0" id="timer-arc-x" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg><span id="timer-txt-x">--</span></div>
+      </div>
+      <div class="sc-draws"><div class="sc-draws-lbl">SERI</div><div class="sc-draws-val" id="ttt-draws">0</div></div>
+      <div class="score-card" id="ttt-sc-o">
+        <div class="sc-sym o-col">⭕</div>
+        <div class="sc-name" id="ttt-no">O</div>
+        <div class="sc-val" id="ttt-vo">0</div>
+        <div class="timer-ring" id="timer-o"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="3"/><circle cx="18" cy="18" r="15" fill="none" stroke="#ff6b6b" stroke-width="3" stroke-dasharray="94.2" stroke-dashoffset="0" id="timer-arc-o" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg><span id="timer-txt-o">--</span></div>
+      </div>
+    </div>
+    <!-- Grid -->
+    <div class="ttt-grid" id="ttt-grid">
+      <!-- 9 cells by JS -->
+    </div>
+    <div class="ttt-status" id="ttt-status">Memulai...</div>
+  </div>
+  <!-- Floating chat -->
+  <div class="float-chat hidden" id="float-chat">
+    <div class="chat-msgs" id="game-chat-msgs"></div>
+    <div class="chat-input-row">
+      <input id="game-chat-input" type="text" placeholder="Pesan..." maxlength="100"/>
+      <button onclick="sendGameChat()">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CHESS SCREEN
+═══════════════════════════════════════ -->
+<div id="screen-chess" class="screen hidden">
+  <div class="chess-aurora"></div>
+  <header class="topbar">
+    <button class="back-btn" onclick="exitGame()">← Keluar</button>
+    <span class="topbar-brand">CATUR</span>
+    <button class="icon-btn" onclick="toggleChat()">💬</button>
+  </header>
+  <div class="chess-wrap">
+    <div class="chess-player-bar" id="chess-bar-top">
+      <span class="chess-dot black-dot"></span>
+      <span id="chess-name-b">Hitam</span>
+      <span class="chess-caps" id="chess-caps-b"></span>
+      <div class="chess-timer" id="chess-timer-b">--:--</div>
+    </div>
+    <div class="board-outer">
+      <div id="chess-board" class="chess-board"></div>
+    </div>
+    <div class="chess-player-bar" id="chess-bar-bot">
+      <span class="chess-dot white-dot"></span>
+      <span id="chess-name-w">Putih</span>
+      <span class="chess-caps" id="chess-caps-w"></span>
+      <div class="chess-timer" id="chess-timer-w">--:--</div>
+    </div>
+    <div class="chess-status" id="chess-status">Siap</div>
+    <div class="chess-hist" id="chess-hist"></div>
+  </div>
+  <!-- Floating chat -->
+  <div class="float-chat hidden" id="float-chat-chess">
+    <div class="chat-msgs" id="chess-chat-msgs"></div>
+    <div class="chat-input-row">
+      <input id="chess-chat-input" type="text" placeholder="Pesan..." maxlength="100"/>
+      <button onclick="sendChessChat()">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROMOTION MODAL -->
+<div id="promo-modal" class="modal-ov hidden">
+  <div class="modal-box glass-card" style="text-align:center">
+    <h3 style="margin-bottom:16px;font-family:var(--fd)">Pilih Promosi Pion</h3>
+    <div id="promo-opts" style="display:flex;gap:12px;justify-content:center"></div>
+  </div>
+</div>
+
+<!-- RESULT OVERLAY -->
+<div id="result-overlay" class="result-ov hidden">
+  <div class="result-box glass-card">
+    <div class="result-icon" id="res-icon">🏆</div>
+    <div class="result-title" id="res-title">Menang!</div>
+    <div class="result-sub" id="res-sub"></div>
+    <div class="result-btns">
+      <button class="btn-lumina" id="res-again" onclick="playAgain()">🔄 Main Lagi</button>
+      <button class="btn-outline" onclick="exitGame()">🚪 Keluar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/room.js"></script>
+<script src="js/ttt.js"></script>
+<script src="js/chess.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
