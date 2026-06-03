@@ -1,0 +1,46 @@
+/* ── CHESS SCREEN ── */
+.chess-aurora{position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(167,139,250,.1) 0%,transparent 55%),var(--bg);z-index:0}
+.chess-wrap{position:relative;z-index:1;flex:1;padding:10px 10px 14px;display:flex;flex-direction:column;align-items:center;gap:10px}
+
+.chess-player-bar{display:flex;align-items:center;gap:10px;width:100%;max-width:390px;background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:9px 14px;transition:border-color .3s}
+.chess-player-bar.active{border-color:var(--c1)}
+.chess-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.white-dot{background:#f0d9b5;border:1px solid #999}
+.black-dot{background:#1a1a1a;border:1px solid #666}
+.chess-caps{flex:1;font-size:12px;color:var(--muted);text-align:right}
+.chess-timer{font-family:var(--fm);font-size:15px;font-weight:700;color:var(--c1);min-width:52px;text-align:right}
+.chess-timer.low{color:var(--c2);animation:timerBlink .5s ease-in-out infinite}
+@keyframes timerBlink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.board-outer{position:relative;width:min(94vw,392px);aspect-ratio:1}
+.chess-board{width:100%;height:100%;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);border:2px solid #3a3a4a;border-radius:4px;overflow:hidden;box-shadow:0 0 50px rgba(0,0,0,.7),0 0 100px rgba(167,139,250,.08)}
+
+.sq{position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none}
+.sq.lt{background:#f0d9b5}
+.sq.dk{background:#b58863}
+.sq.sel{background:rgba(20,200,100,.6)!important;box-shadow:inset 0 0 0 3px rgba(20,200,100,.9)}
+.sq.vm::after{content:'';position:absolute;width:32%;height:32%;border-radius:50%;background:rgba(0,0,0,.22)}
+.sq.vc::after{content:'';position:absolute;inset:4px;border-radius:50%;border:4px solid rgba(0,0,0,.22);background:transparent}
+.sq.lm-f{background:rgba(255,255,0,.28)!important}
+.sq.lm-t{background:rgba(255,255,0,.28)!important}
+.sq.chk{background:rgba(255,50,50,.5)!important}
+
+.cp{font-size:clamp(20px,5.2vw,36px);line-height:1;z-index:1;pointer-events:none;-webkit-text-stroke:.5px rgba(0,0,0,.25);user-select:none}
+
+.rl{position:absolute;top:1px;left:2px;font-size:9px;font-weight:700;pointer-events:none;z-index:2}
+.rf{position:absolute;bottom:1px;right:2px;font-size:9px;font-weight:700;pointer-events:none;z-index:2}
+.sq.lt .rl,.sq.lt .rf{color:#b58863}
+.sq.dk .rl,.sq.dk .rf{color:#f0d9b5}
+
+.chess-status{font-family:var(--fd);font-size:12px;letter-spacing:1px;background:var(--glass);border:1px solid var(--border);border-radius:30px;padding:7px 20px;text-align:center;width:100%;max-width:390px}
+.chess-status.chk{color:var(--c3);border-color:rgba(255,217,61,.4)}
+.chess-status.mat{color:var(--c1);border-color:rgba(74,255,203,.4)}
+
+.chess-hist{display:flex;flex-wrap:wrap;gap:4px;width:100%;max-width:390px;background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:8px;max-height:68px;overflow-y:auto}
+.cm{font-family:var(--fm);font-size:11px;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,.05)}
+.cm:nth-child(odd){color:#f0d9b5}
+.cm:nth-child(even){color:#b58863}
+
+/* Promotion */
+.promo-pc{width:58px;height:58px;background:rgba(255,255,255,.05);border:2px solid var(--border);border-radius:12px;font-size:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.promo-pc:hover{border-color:var(--c1);background:rgba(74,255,203,.1)}
