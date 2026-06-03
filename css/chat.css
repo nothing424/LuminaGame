@@ -1,0 +1,20 @@
+/* ── CHAT ── */
+.chat-room{padding:14px;display:flex;flex-direction:column;gap:10px}
+.chat-title{font-size:12px;color:var(--muted);letter-spacing:2px;font-weight:700;text-transform:uppercase}
+.chat-msgs{display:flex;flex-direction:column;gap:6px;max-height:160px;overflow-y:auto;scroll-behavior:smooth}
+.chat-msg{display:flex;flex-direction:column;gap:1px}
+.chat-msg-name{font-size:11px;color:var(--c1);font-weight:700}
+.chat-msg-name.opp{color:var(--c4)}
+.chat-msg-name.sys{color:var(--muted)}
+.chat-msg-text{font-size:13px;padding:6px 10px;background:rgba(255,255,255,.04);border-radius:0 8px 8px 8px;border:1px solid var(--border);max-width:90%;word-break:break-word}
+.chat-msg.me .chat-msg-text{background:rgba(74,255,203,.07);border-color:rgba(74,255,203,.15);border-radius:8px 0 8px 8px;align-self:flex-end}
+.chat-msg.sys .chat-msg-text{text-align:center;font-size:11px;color:var(--muted);background:transparent;border:none;align-self:center}
+.chat-input-row{display:flex;gap:8px}
+.chat-input-row input{flex:1;background:rgba(0,0,0,.3);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:9px 12px;font-size:14px;outline:none}
+.chat-input-row input:focus{border-color:var(--c1)}
+.chat-input-row button{background:linear-gradient(135deg,var(--c4),var(--c1));border:none;color:var(--bg);padding:0 16px;border-radius:8px;font-size:16px;cursor:pointer;font-weight:900;transition:all .2s}
+.chat-input-row button:hover{transform:scale(1.05)}
+
+/* Floating chat in-game */
+.float-chat{position:fixed;bottom:0;left:0;right:0;z-index:80;background:var(--bg2);border-top:1px solid var(--border);padding:12px 14px;display:flex;flex-direction:column;gap:8px;max-height:240px;box-shadow:0 -8px 30px rgba(0,0,0,.4)}
+.float-chat:not(.hidden){display:flex}
