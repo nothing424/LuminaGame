@@ -1,0 +1,42 @@
+/* ── TTT SCREEN ── */
+.ttt-aurora{position:fixed;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(74,255,203,.08) 0%,transparent 55%),radial-gradient(ellipse at 70% 80%,rgba(255,107,107,.08) 0%,transparent 55%),var(--bg);z-index:0}
+.ttt-wrap{position:relative;z-index:1;flex:1;padding:14px 12px;display:flex;flex-direction:column;align-items:center;gap:14px}
+
+/* Scoreboard */
+.score-bar{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:380px;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.score-card{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;transition:transform .2s}
+.score-card.active{transform:scale(1.05)}
+.sc-sym{font-family:var(--fd);font-size:24px;font-weight:900}
+.x-col{color:var(--c1);text-shadow:0 0 12px rgba(74,255,203,.6)}
+.o-col{color:var(--c2);text-shadow:0 0 12px rgba(255,107,107,.6)}
+.sc-name{font-size:11px;color:var(--muted);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.sc-val{font-family:var(--fm);font-size:26px;font-weight:700}
+.sc-draws{display:flex;flex-direction:column;align-items:center;gap:2px}
+.sc-draws-lbl{font-size:10px;color:var(--muted);letter-spacing:1px}
+.sc-draws-val{font-family:var(--fm);font-size:20px;color:var(--c3)}
+
+/* Timer ring */
+.timer-ring{position:relative;width:40px;height:40px}
+.timer-ring svg{width:100%;height:100%}
+.timer-ring span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:9px;font-weight:700;color:var(--c1)}
+
+/* TTT Grid */
+.ttt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px;width:min(94vw,360px);background:var(--glass);border:1px solid var(--border);border-radius:var(--r)}
+.ttt-cell{aspect-ratio:1;background:rgba(255,255,255,.03);border:2px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:clamp(26px,8vw,46px);cursor:pointer;transition:all .15s;user-select:none;position:relative;overflow:hidden}
+.ttt-cell::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(74,255,203,.12),transparent 70%);opacity:0;transition:opacity .2s}
+.ttt-cell:hover:not(.locked):not(.gone)::after{opacity:1}
+.ttt-cell:hover:not(.locked):not(.gone){border-color:rgba(74,255,203,.3);transform:scale(1.04)}
+.ttt-cell.X{color:var(--c1);text-shadow:0 0 16px rgba(74,255,203,.7);border-color:rgba(74,255,203,.4);background:rgba(74,255,203,.05);animation:popIn .2s ease}
+.ttt-cell.O{color:var(--c2);text-shadow:0 0 16px rgba(255,107,107,.7);border-color:rgba(255,107,107,.4);background:rgba(255,107,107,.05);animation:popIn .2s ease}
+.ttt-cell.winner{animation:winPulse .5s ease 3}
+.ttt-cell.X.winner{background:rgba(74,255,203,.18)}
+.ttt-cell.O.winner{background:rgba(255,107,107,.18)}
+.ttt-cell.gone{opacity:.25;border-style:dashed;cursor:not-allowed}
+.ttt-cell.locked{cursor:not-allowed}
+@keyframes popIn{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+@keyframes winPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+.ttt-status{font-family:var(--fd);font-size:14px;letter-spacing:1px;background:var(--glass);border:1px solid var(--border);border-radius:30px;padding:9px 24px;max-width:360px;width:100%;text-align:center}
+.ttt-status.win{color:var(--c1);border-color:rgba(74,255,203,.4)}
+.ttt-status.lose{color:var(--c2);border-color:rgba(255,107,107,.4)}
+.ttt-status.draw{color:var(--c3);border-color:rgba(255,217,61,.4)}
